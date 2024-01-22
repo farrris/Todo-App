@@ -6,7 +6,6 @@ use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
@@ -14,8 +13,7 @@ class TaskTest extends TestCase
 {
     use RefreshDatabase;
 
-    private User $userNick;
-    private User $userIvan;
+    private User $externalUser;
 
     private Task $task;
 
@@ -23,12 +21,10 @@ class TaskTest extends TestCase
     {
         parent::setUp();
 
-        $this->userNick = User::create(["name" => "Nick", "email" => "nickols@mail.ru", "password" => "987654321"]);
-        $this->userIvan = User::create(["name" => "Ivan", "email" => "ivanivanov@gmail.com", "password" => "123456789"]);
+        $this->externalUser = User::factory()->create();
+        $this->task = Task::factory()->create();
 
-        $this->task = Task::create(["title" => "test", "description" => "blablabla", "status" => TaskStatusEnum::Todo->value, "user_id" => $this->userNick->id]);
-
-        Auth::login($this->userNick);
+        Auth::login($this->task->user);
     }
 
     public function test_my_tasks(): void
@@ -77,7 +73,7 @@ class TaskTest extends TestCase
 
     public function test_task_protected_from_external_interference()
     {
-        Auth::login($this->userIvan);
+        Auth::login($this->externalUser);
         $data = [
             "status" => TaskStatusEnum::Cancelled->value
         ];
