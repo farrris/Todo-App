@@ -9,7 +9,7 @@ class ResponseService
     {
         return [
             'status' => $status ? "success" : "error",
-            'message' => (string)$message,
+            'message' => $message,
             'data' => (object)$data,
             'errors' => (object)$errors,
         ];
