@@ -191,6 +191,125 @@
                 ]
             }
         },
+        "/api/events": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "description": "Метод для просмотра всех событий на платформе",
+                "operationId": "eventsIndex",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "events": {
+                                            "$ref": "#/components/schemas/Event"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/events/": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "description": "Метод для регистрации нового события",
+                "operationId": "eventsStore",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "test title"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "test description"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-01-22 17:33:39"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "$ref": "#/components/schemas/Event"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/events/{id}": {
+            "delete": {
+                "tags": [
+                    "Event"
+                ],
+                "description": "Метод удаляет событие",
+                "operationId": "eventsDelete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id события",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "NOT FOUND"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/tasks": {
             "get": {
                 "tags": [
@@ -426,6 +545,40 @@
     },
     "components": {
         "schemas": {
+            "Event": {
+                "title": "Event",
+                "description": "Событие",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "title",
+                        "description": "Заголовок задачи",
+                        "type": "string",
+                        "example": "test title"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Описание задачи",
+                        "type": "string",
+                        "example": "test description"
+                    },
+                    "date": {
+                        "title": "date",
+                        "description": "Дата события",
+                        "type": "string",
+                        "example": "2024-01-22 17:33:39"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Event"
+                }
+            },
             "Task": {
                 "title": "Task",
                 "description": "Задача",

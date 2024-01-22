@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\TaskController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::apiResource("/tasks", TaskController::class)->middleware("auth:api");
+Route::apiResource("/events", EventController::class)->middleware("auth:api");
