@@ -3,7 +3,7 @@
 ### 1. Склонировать проект с гита
 `git clone https://github.com/farrris/Todo-App;`
 ### 2. Запустить скрипт сборки
-`sh init_prject.sh`
+`sh init_project.sh`
  
 # Запуск тестов
 
