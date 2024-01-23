@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Resources\EventResource;
@@ -11,6 +12,7 @@ use App\Services\ResponseService;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {   
@@ -88,6 +90,8 @@ class EventController extends Controller
     public function store(StoreEventRequest $request): JsonResponse
     {
         $event = $this->eventService->createEvent($request->validated());
+
+        NewEvent::dispatch($event);
 
         return ResponseService::сreated(
             EventResource::make($event)
